@@ -20,7 +20,7 @@ A small quantized model (qwen3.5:4b, Q4_K_M) runs on Ollama, answers questions o
 ## Quick start
 ```powershell
 python -m venv .venv
-.venv\Scripts\pip install -r requirements.txt   # if present
+.venv\Scripts\pip install -r requirements.txt
 ollama pull qwen3.5:4b
 ollama pull nomic-embed-text
 .venv\Scripts\python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000
