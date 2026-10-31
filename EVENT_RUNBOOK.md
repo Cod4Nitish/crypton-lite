@@ -2,7 +2,7 @@
 
 ## Before leaving home
 - [ ] Laptop charger in the bag. Ollama running; models present: `ollama list` (qwen3.5:4b, nomic-embed-text).
-- [ ] Start server: `.venv\Scripts\python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000`
+- [ ] Start server: `.venv\Scripts\python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000`
 - [ ] Open http://localhost:8000, hard refresh (Ctrl+Shift+R).
 - [ ] Click **Prepare demo (sample data)** twice (second click confirms). Check: 2 `[Sample]` tasks, `SAMPLE-event-agenda.pdf` indexed.
 - [ ] Warm the model: send "list my tasks" once (cold load is about 7 s).
