@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07090f">
+<meta name="description" content="CRYPTON Lite: a voice-first task agent running fully on a local LLM.">
+<title>CRYPTON Lite</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/static/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/static/icon-192.png">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <div class="brand"><span class="dot" id="dot"></span>CRYPTON <em>Lite</em></div>
+  <div class="head-right">
+    <button id="install" class="ghost sm" hidden>⬇ Install app</button>
+    <button id="speak" class="ghost sm" title="Speak replies aloud (V)" aria-pressed="false">🔈 Voice off</button>
+    <button id="help" class="ghost sm icon" title="Shortcuts (?)">?</button>
+    <div class="status" id="status">checking…</div>
+  </div>
+</header>
+
+<main>
+  <section class="panel talk">
+    <div class="hero">
+      <div class="orb" id="core"><i></i><i></i><i></i></div>
+      <div>
+        <h1 id="greet">Say it. It's done.</h1>
+        <p class="hint">Voice-first task agent running <b>100% on-device</b>. Hold your <b>Wispr Flow</b> hotkey in the box, or tap <b>Mic</b>.</p>
+      </div>
+    </div>
+
+    <div class="chips" id="chips">
+      <button>Add a high priority task to submit the demo by 2pm today</button>
+      <button>Plan my day</button>
+      <button>Make the demo task low priority</button>
+      <button>I finished the demo, mark it done</button>
+    </div>
+
+    <div id="log" class="log" aria-live="polite"></div>
+
+    <form id="chat-form" class="composer">
+      <textarea id="msg" rows="2" placeholder="Tell CRYPTON what to do…" autofocus></textarea>
+      <div class="row">
+        <button type="button" id="mic" class="ghost" title="Browser speech (Chrome)">🎤 Mic</button>
+        <span class="kbd">Enter send · Shift+Enter newline · / focus</span>
+        <button type="submit" id="send">Send</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel board">
+    <div class="progress">
+      <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" class="track"/><circle cx="18" cy="18" r="15.9" class="bar" id="ring"/></svg>
+      <div class="pct"><b id="pct">0%</b><span>done</span></div>
+      <div class="stats">
+        <div><b id="s-open">0</b><span>open</span></div>
+        <div><b id="s-high">0</b><span>high</span></div>
+        <div><b id="s-over">0</b><span>overdue</span></div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <div class="tabs" id="tabs" role="tablist">
+        <button data-f="all" class="on">All <span id="count"></span></button>
+        <button data-f="open">Open</button>
+        <button data-f="done">Done</button>
+      </div>
+      <input id="search" type="search" placeholder="Search…" aria-label="Search tasks">
+    </div>
+    <form id="add-form" class="row">
+      <input id="add-title" placeholder="Quick add (no AI)" maxlength="200">
+      <select id="add-priority" aria-label="Priority"><option>low</option><option selected>medium</option><option>high</option></select>
+      <button type="submit">Add</button>
+    </form>
+    <ul id="tasks"></ul>
+  </section>
+</main>
+
+<dialog id="help-dlg">
+  <h3>Shortcuts &amp; tips</h3>
+  <ul>
+    <li><kbd>/</kbd> focus the command box</li>
+    <li><kbd>Enter</kbd> send · <kbd>Shift</kbd>+<kbd>Enter</kbd> new line</li>
+    <li><kbd>V</kbd> toggle spoken replies</li>
+    <li><kbd>Esc</kbd> clear search / close</li>
+    <li>Tap a priority pill to cycle it · tap ✕ to delete (undo available)</li>
+    <li>Follow-ups work: “add buy cables” → “make it high priority”</li>
+  </ul>
+  <form method="dialog"><button>Got it</button></form>
+</dialog>
+<div id="toast" class="toast" role="status"><span id="toast-text"></span><button id="toast-undo" class="ghost sm" hidden>Undo</button></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

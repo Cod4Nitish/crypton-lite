@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+web/dist/
+data/chroma/
+crypton.db
+*.db
+.env
+.env.*
+benchmarks/last_run.log

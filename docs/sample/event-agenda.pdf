@@ -1,0 +1,64 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 1019 >>
+stream
+BT
+/F1 16 Tf 1 0 0 1 50 790 Tm (Speed of Thought: AI Meetup - Event Agenda) Tj
+/F1 10 Tf 1 0 0 1 50 764 Tm (Hosted by WeMakeDevs. Venue: 91Springboard, 21B Udyog Vihar, Sector 18, Gurugram.) Tj
+/F1 10 Tf 1 0 0 1 50 744 Tm (Date: Saturday 31 October 2026. Capacity 100 attendees, in person only.) Tj
+/F1 10 Tf 1 0 0 1 50 724 Tm () Tj
+/F1 10 Tf 1 0 0 1 50 704 Tm (09:00 - 09:30  Check-in, welcome drinks and networking. Bring your ID and laptop charger.) Tj
+/F1 10 Tf 1 0 0 1 50 684 Tm (09:30 - 10:00  Technical talk: Why Model Quantization Matters for Efficient Inference,) Tj
+/F1 10 Tf 1 0 0 1 50 664 Tm (               by Shivay. Covers Q4 and Q8 formats, memory bandwidth and accuracy trade-offs.) Tj
+/F1 10 Tf 1 0 0 1 50 644 Tm (10:00 - 10:40  Hands-on workshop: Build Faster with Wispr Flow. Install Wispr Flow) Tj
+/F1 10 Tf 1 0 0 1 50 624 Tm (               beforehand and grant microphone permission.) Tj
+/F1 10 Tf 1 0 0 1 50 604 Tm (10:40          Building phase starts. Teams build an AI project on site.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 850 >>
+stream
+BT
+/F1 14 Tf 1 0 0 1 50 790 Tm (Agenda \(continued\) and submission rules) Tj
+/F1 10 Tf 1 0 0 1 50 766 Tm (13:00 - 14:00  Pizza lunch and drinks. Building continues.) Tj
+/F1 10 Tf 1 0 0 1 50 746 Tm (14:00          Build submissions close. Late submissions are not accepted.) Tj
+/F1 10 Tf 1 0 0 1 50 726 Tm (               Submit a public repo link and a short demo video or live demo.) Tj
+/F1 10 Tf 1 0 0 1 50 706 Tm (14:00 - 14:45  Networking and judging. Each team gets about two minutes to demo.) Tj
+/F1 10 Tf 1 0 0 1 50 686 Tm (14:45 - 15:00  Winner announcement, prizes and closing remarks.) Tj
+/F1 10 Tf 1 0 0 1 50 666 Tm () Tj
+/F1 10 Tf 1 0 0 1 50 646 Tm (Prizes: best build wins a Keychron keyboard. Best social media post about the) Tj
+/F1 10 Tf 1 0 0 1 50 626 Tm (meetup wins a Logitech MX Master 4. Wispr Flow swag for participants.) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000191 00000 n 
+0000001262 00000 n 
+0000001388 00000 n 
+0000002289 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+2415
+%%EOF

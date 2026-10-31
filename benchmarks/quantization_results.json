@@ -1,0 +1,330 @@
+{
+ "generated_at": "2026-10-31T01:54:23+00:00",
+ "machine": {
+  "os": "Windows-11-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 191 Stepping 2, GenuineIntel",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU, 6141 MiB, 610.74",
+  "ollama": "0.40.2"
+ },
+ "options": {
+  "temperature": 0,
+  "seed": 42,
+  "num_ctx": 4096,
+  "num_predict": 128
+ },
+ "trials": 3,
+ "groups": [
+  {
+   "key": "qwen2 7.6B",
+   "models": [
+    "qwen2.5-coder:7b"
+   ],
+   "comparable": false
+  },
+  {
+   "key": "qwen35 4.2B",
+   "models": [
+    "qwen3.5:4b"
+   ],
+   "comparable": false
+  }
+ ],
+ "models": [
+  {
+   "model": "qwen2.5-coder:7b",
+   "family": "qwen2",
+   "parameter_size": "7.6B",
+   "quantization": "Q4_K_M",
+   "file_size_gib": 4.36,
+   "context_length_max": 32768,
+   "num_ctx_used": 4096,
+   "trials": 3,
+   "calls": 9,
+   "errors": 0,
+   "cold_load_s": 16.254,
+   "prompt_tok_s_median": 555.3,
+   "gen_tok_s_median": 25.0,
+   "wall_s_median": 0.38,
+   "wall_s_max": 16.793,
+   "ollama_resident_mib": 4886,
+   "ollama_vram_mib": 3992,
+   "gpu_peak_delta_mib": 0,
+   "quality": {
+    "passed": 9,
+    "total": 9,
+    "by_test": {
+     "arithmetic": "3/3",
+     "extraction": "3/3",
+     "tool-selection": "3/3"
+    }
+   },
+   "raw": [
+    {
+     "test": "arithmetic",
+     "passed": true,
+     "wall_s": 16.793,
+     "total_s": 16.757,
+     "load_s": 16.254,
+     "prompt_tokens": 45,
+     "output_tokens": 4,
+     "prompt_tok_s": 156.1,
+     "gen_tok_s": 20.6,
+     "output": "391",
+     "trial": 0
+    },
+    {
+     "test": "extraction",
+     "passed": true,
+     "wall_s": 0.384,
+     "total_s": 0.375,
+     "load_s": 0.022,
+     "prompt_tokens": 56,
+     "output_tokens": 6,
+     "prompt_tok_s": 525.3,
+     "gen_tok_s": 25.0,
+     "output": "14:00",
+     "trial": 0
+    },
+    {
+     "test": "tool-selection",
+     "passed": true,
+     "wall_s": 1.652,
+     "total_s": 1.634,
+     "load_s": 0.024,
+     "prompt_tokens": 318,
+     "output_tokens": 32,
+     "prompt_tok_s": 1407.7,
+     "gen_tok_s": 23.3,
+     "output": "{\"name\": \"create_task\", \"arguments\": {\"title\": \"Call mom\", \"priority\": \"high\", \"due\": \"YYYY-MM-DD\"}}",
+     "trial": 0
+    },
+    {
+     "test": "arithmetic",
+     "passed": true,
+     "wall_s": 0.301,
+     "total_s": 0.27,
+     "load_s": 0.023,
+     "prompt_tokens": 45,
+     "output_tokens": 4,
+     "prompt_tok_s": 453.6,
+     "gen_tok_s": 30.2,
+     "output": "391",
+     "trial": 1
+    },
+    {
+     "test": "extraction",
+     "passed": true,
+     "wall_s": 0.351,
+     "total_s": 0.343,
+     "load_s": 0.017,
+     "prompt_tokens": 56,
+     "output_tokens": 6,
+     "prompt_tok_s": 592.7,
+     "gen_tok_s": 26.4,
+     "output": "14:00",
+     "trial": 1
+    },
+    {
+     "test": "tool-selection",
+     "passed": true,
+     "wall_s": 1.469,
+     "total_s": 1.44,
+     "load_s": 0.022,
+     "prompt_tokens": 318,
+     "output_tokens": 32,
+     "prompt_tok_s": 6431.8,
+     "gen_tok_s": 23.6,
+     "output": "{\"name\": \"create_task\", \"arguments\": {\"title\": \"Call mom\", \"priority\": \"high\", \"due\": \"YYYY-MM-DD\"}}",
+     "trial": 1
+    },
+    {
+     "test": "arithmetic",
+     "passed": true,
+     "wall_s": 0.287,
+     "total_s": 0.279,
+     "load_s": 0.029,
+     "prompt_tokens": 45,
+     "output_tokens": 4,
+     "prompt_tok_s": 458.7,
+     "gen_tok_s": 29.8,
+     "output": "391",
+     "trial": 2
+    },
+    {
+     "test": "extraction",
+     "passed": true,
+     "wall_s": 0.368,
+     "total_s": 0.36,
+     "load_s": 0.032,
+     "prompt_tokens": 56,
+     "output_tokens": 6,
+     "prompt_tok_s": 555.3,
+     "gen_tok_s": 26.9,
+     "output": "14:00",
+     "trial": 2
+    },
+    {
+     "test": "tool-selection",
+     "passed": true,
+     "wall_s": 1.471,
+     "total_s": 1.464,
+     "load_s": 0.03,
+     "prompt_tokens": 318,
+     "output_tokens": 32,
+     "prompt_tok_s": 6482.7,
+     "gen_tok_s": 23.4,
+     "output": "{\"name\": \"create_task\", \"arguments\": {\"title\": \"Call mom\", \"priority\": \"high\", \"due\": \"YYYY-MM-DD\"}}",
+     "trial": 2
+    }
+   ]
+  },
+  {
+   "model": "qwen3.5:4b",
+   "family": "qwen35",
+   "parameter_size": "4.2B",
+   "quantization": "Q4_K_M",
+   "file_size_gib": 3.1,
+   "context_length_max": 262144,
+   "num_ctx_used": 4096,
+   "trials": 3,
+   "calls": 9,
+   "errors": 0,
+   "cold_load_s": 7.319,
+   "prompt_tok_s_median": 670.5,
+   "gen_tok_s_median": 62.0,
+   "wall_s_median": 0.3,
+   "wall_s_max": 7.691,
+   "ollama_resident_mib": 2985,
+   "ollama_vram_mib": 2985,
+   "gpu_peak_delta_mib": 3733,
+   "quality": {
+    "passed": 9,
+    "total": 9,
+    "by_test": {
+     "arithmetic": "3/3",
+     "extraction": "3/3",
+     "tool-selection": "3/3"
+    }
+   },
+   "raw": [
+    {
+     "test": "arithmetic",
+     "passed": true,
+     "wall_s": 7.691,
+     "total_s": 7.645,
+     "load_s": 7.319,
+     "prompt_tokens": 28,
+     "output_tokens": 4,
+     "prompt_tok_s": 119.4,
+     "gen_tok_s": 47.4,
+     "output": "391",
+     "trial": 0
+    },
+    {
+     "test": "extraction",
+     "passed": true,
+     "wall_s": 0.259,
+     "total_s": 0.249,
+     "load_s": 0.042,
+     "prompt_tokens": 39,
+     "output_tokens": 6,
+     "prompt_tok_s": 590.2,
+     "gen_tok_s": 62.6,
+     "output": "14:00",
+     "trial": 0
+    },
+    {
+     "test": "tool-selection",
+     "passed": true,
+     "wall_s": 1.386,
+     "total_s": 1.362,
+     "load_s": 0.033,
+     "prompt_tokens": 500,
+     "output_tokens": 59,
+     "prompt_tok_s": 2118.0,
+     "gen_tok_s": 56.5,
+     "output": "[{\"id\": \"call_w2814ki2\", \"function\": {\"index\": 0, \"name\": \"create_task\", \"arguments\": {\"title\": \"Call mom\", \"priority\": \"high\", \"due\": \"2023-10-25\"}}}]",
+     "trial": 0
+    },
+    {
+     "test": "arithmetic",
+     "passed": true,
+     "wall_s": 0.261,
+     "total_s": 0.232,
+     "load_s": 0.039,
+     "prompt_tokens": 28,
+     "output_tokens": 4,
+     "prompt_tok_s": 481.2,
+     "gen_tok_s": 67.1,
+     "output": "391",
+     "trial": 1
+    },
+    {
+     "test": "extraction",
+     "passed": true,
+     "wall_s": 0.3,
+     "total_s": 0.268,
+     "load_s": 0.033,
+     "prompt_tokens": 39,
+     "output_tokens": 6,
+     "prompt_tok_s": 670.5,
+     "gen_tok_s": 62.0,
+     "output": "14:00",
+     "trial": 1
+    },
+    {
+     "test": "tool-selection",
+     "passed": true,
+     "wall_s": 1.209,
+     "total_s": 1.201,
+     "load_s": 0.031,
+     "prompt_tokens": 500,
+     "output_tokens": 59,
+     "prompt_tok_s": 8930.2,
+     "gen_tok_s": 56.6,
+     "output": "[{\"id\": \"call_op9udrm1\", \"function\": {\"index\": 0, \"name\": \"create_task\", \"arguments\": {\"title\": \"Call mom\", \"priority\": \"high\", \"due\": \"2023-10-25\"}}}]",
+     "trial": 1
+    },
+    {
+     "test": "arithmetic",
+     "passed": true,
+     "wall_s": 0.237,
+     "total_s": 0.229,
+     "load_s": 0.033,
+     "prompt_tokens": 28,
+     "output_tokens": 4,
+     "prompt_tok_s": 435.1,
+     "gen_tok_s": 65.1,
+     "output": "391",
+     "trial": 2
+    },
+    {
+     "test": "extraction",
+     "passed": true,
+     "wall_s": 0.284,
+     "total_s": 0.253,
+     "load_s": 0.032,
+     "prompt_tokens": 39,
+     "output_tokens": 6,
+     "prompt_tok_s": 705.7,
+     "gen_tok_s": 62.9,
+     "output": "14:00",
+     "trial": 2
+    },
+    {
+     "test": "tool-selection",
+     "passed": true,
+     "wall_s": 1.207,
+     "total_s": 1.2,
+     "load_s": 0.029,
+     "prompt_tokens": 500,
+     "output_tokens": 59,
+     "prompt_tok_s": 8440.8,
+     "gen_tok_s": 56.2,
+     "output": "[{\"id\": \"call_fa015ww4\", \"function\": {\"index\": 0, \"name\": \"create_task\", \"arguments\": {\"title\": \"Call mom\", \"priority\": \"high\", \"due\": \"2023-10-25\"}}}]",
+     "trial": 2
+    }
+   ]
+  }
+ ]
+}
