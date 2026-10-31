@@ -109,3 +109,13 @@ def test_demo_reset_seeds_labelled_sample_data_and_is_repeatable():
     assert [d["name"] for d in docs] == ["SAMPLE-event-agenda.pdf"]
     hit = client.get("/api/search", params={"q": "when do submissions close?"}).json()
     assert hit["chunks"] and hit["chunks"][0]["doc"] == "SAMPLE-event-agenda.pdf" and hit["chunks"][0]["page"] == 2
+
+
+def test_near_duplicate_title_is_blocked():
+    from backend import tools
+    first = tools.execute("create_task", {"title": "Submit public repo link and demo video by 14:00", "due": "2026-10-31"})
+    again = tools.execute("create_task", {"title": "Submit public repo link & demo video by 14:00.", "due": "2026-10-31"})
+    other = tools.execute("create_task", {"title": "Charge laptop", "due": "2026-10-31"})
+    assert first["ok"] and not first.get("duplicate")
+    assert again.get("duplicate") is True
+    assert other["ok"] and not other.get("duplicate")

@@ -2,12 +2,18 @@
   "name": "CRYPTON Agent Workspace",
   "short_name": "CRYPTON",
   "description": "Voice-first task agent running on a local LLM.",
+  "id": "/",
+  "lang": "en",
+  "categories": ["productivity"],
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#07090f",
   "theme_color": "#07090f",
+  "shortcuts": [
+    {"name": "Open classic UI", "short_name": "Classic", "url": "/lite"}
+  ],
   "icons": [
     {"src": "/static/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
     {"src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},

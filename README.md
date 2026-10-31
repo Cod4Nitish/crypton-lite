@@ -45,6 +45,9 @@ Open http://localhost:8000, then click **Prepare demo (sample data)** to load sa
 
 Frontend rebuild: `cd web && npm install && npm run build`.
 
+## Install as an app (PWA)
+Open http://localhost:8000 in Chrome or Edge and click the install icon in the address bar (or menu, Install Crypton). It opens in its own window with an icon. The built UI is committed in `web/dist`, so a fresh clone runs without Node. To use it on a phone, run the server with `--host 0.0.0.0` and open `http://<laptop-ip>:8000` on the same Wi-Fi (installing from a non-localhost address needs HTTPS in most browsers, so the laptop install is the reliable one).
+
 ## Tests
 ```powershell
 .venv\Scripts\python -m pytest -q

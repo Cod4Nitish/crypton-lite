@@ -56,12 +56,20 @@ def create_task(title: str, priority: str = "medium", due: str | None = None) ->
 
 
 def find_duplicate_open(title: str, due: str | None = None) -> dict | None:
-    """An open task with the same title (case/space-insensitive) and the same due date, if any."""
-    norm = " ".join((title or "").lower().split())
+    """An open task with the same due date and a near-identical title (case/space/punctuation-insensitive)."""
+    from difflib import SequenceMatcher
+    norm = _norm_title(title)
     for t in list_tasks("open"):
-        if " ".join(t["title"].lower().split()) == norm and (t["due"] or None) == (due or None):
+        if (t["due"] or None) != (due or None):
+            continue
+        other = _norm_title(t["title"])
+        if other == norm or SequenceMatcher(None, other, norm).ratio() >= 0.85:
             return t
     return None
+
+
+def _norm_title(title: str) -> str:
+    return " ".join("".join(ch if ch.isalnum() else " " for ch in (title or "").lower()).split())
 
 
 def list_tasks(status: str = "all") -> list[dict]:
