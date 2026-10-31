@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crypton Lite</title>
+<style>
+  :root { --bg:#f7f8fb; --fg:#161a24; --muted:#5b6475; --card:#fff; --line:#e1e5ee; --accent:#3b5bdb; --warn:#fff4e0; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0b0f1c; --fg:#e8ebf4; --muted:#9aa3b8; --card:#141a2b; --line:#232b42; --accent:#8da2ff; --warn:#2a2112; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif; }
+  main { max-width:860px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { margin:0 0 4px; font-size:2rem; }
+  h2 { margin:36px 0 12px; font-size:1.2rem; }
+  p.lead { color:var(--muted); margin:0 0 16px; }
+  .note { background:var(--warn); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin:16px 0; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  img { max-width:100%; border-radius:10px; border:1px solid var(--line); display:block; margin:12px 0; }
+  table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; font-size:.95rem; }
+  th { color:var(--muted); font-weight:600; }
+  tr:last-child td { border-bottom:0; }
+  pre { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; overflow-x:auto; font-size:.9rem; }
+  a { color:var(--accent); }
+  .btn { display:inline-block; padding:10px 16px; border-radius:10px; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; margin:4px 8px 4px 0; }
+  .btn.alt { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Crypton Lite</h1>
+  <p class="lead">A private, local AI agent you control by voice: tasks, document Q&amp;A with page-numbered citations, and live web research. Built for CRYPTON: Speed of Thought (WeMakeDevs, 31 Oct 2026).</p>
+  <a class="btn" href="https://github.com/Cod4Nitish/crypton-lite">Source on GitHub</a>
+  <a class="btn alt" href="https://github.com/Cod4Nitish/crypton-lite/blob/main/SUBMISSION.md">Submission write-up</a>
+
+  <div class="note"><strong>This page is a static preview, not the running agent.</strong> The model (Ollama, qwen3.5:4b) and the database run on the presenter's laptop, so the interactive app is shown in the live demo or can be run locally with the steps below.</div>
+
+  <h2>What it looks like</h2>
+  <img src="screenshots/02-rag-summary-trace.png" alt="Crypton workspace answering from an agenda with citations and a timing trace">
+  <img src="screenshots/01-workspace-empty.png" alt="Crypton workspace home screen">
+
+  <h2>How the sponsor tools are used</h2>
+  <table>
+    <tr><th>Tool</th><th>Role in the build</th><th>Status</th></tr>
+    <tr><td>Wispr Flow</td><td>Voice input. Wispr turns speech into text in the chat box; Enter starts the agent.</td><td>Ready; real-mic run pending</td></tr>
+    <tr><td>Anakin.io</td><td><code>web_search</code> and <code>scrape_url</code> tools in the <code>web-research</code> skill.</td><td>Mocked tests pass; live run needs an API key</td></tr>
+    <tr><td>GenieX</td><td>Needs Snapdragon hardware; this build ran on Intel + NVIDIA.</td><td>Not verified</td></tr>
+  </table>
+
+  <h2>Run it yourself</h2>
+  <pre>git clone https://github.com/Cod4Nitish/crypton-lite
+cd crypton-lite
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+ollama pull qwen3.5:4b
+ollama pull nomic-embed-text
+.venv\Scripts\python -m uvicorn backend.main:app --port 8000</pre>
+  <p>Then open <code>http://localhost:8000</code>. It can be installed as an app from the browser's install icon.</p>
+</main>
+</body>
+</html>
