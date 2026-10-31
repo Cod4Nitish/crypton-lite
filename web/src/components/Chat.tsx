@@ -191,9 +191,9 @@ const Welcome: FC = () => (
   <ThreadPrimitive.Empty>
     <div className="mx-auto flex max-w-xl flex-col items-center py-10 text-center">
       <div className="orb mb-5 size-16 rounded-full" />
-      <h1 className="text-2xl font-semibold tracking-tight">What should CRYPTON do?</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">How can I help?</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        Hold your <b className="text-foreground">Wispr Flow</b> hotkey in the box below and speak. Every step runs on this machine: Ollama, LangGraph, ChromaDB, SQLite.
+        Type what you need, or hold your <b className="text-foreground">Wispr Flow</b> key and speak. Pick an example below to start. Everything stays on this computer.
       </p>
       <div className="mt-6 grid w-full gap-2 sm:grid-cols-2">
         {SUGGESTIONS.map((s) => (
@@ -208,7 +208,7 @@ const Welcome: FC = () => (
 
 const Composer: FC = () => (
   <ComposerPrimitive.Root className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-2xl border bg-card/80 p-2 shadow-lg backdrop-blur">
-    <ComposerPrimitive.Input autoFocus placeholder="Speak with Wispr Flow or type a command…" rows={1}
+    <ComposerPrimitive.Input autoFocus placeholder="Type or speak what you need…" rows={1}
       className="max-h-40 min-h-11 w-full resize-none bg-transparent px-2 py-2 text-[15px] outline-none placeholder:text-muted-foreground" />
     <div className="flex items-center gap-2">
       <ComposerPrimitive.If dictation={false}>

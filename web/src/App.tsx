@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { PanelRight } from "lucide-react"
+import { Settings2 } from "lucide-react"
 import { Chat } from "@/components/Chat"
 import { Inspector } from "@/components/Inspector"
+import { TaskPanel } from "@/components/TaskPanel"
 import { DemoReset, Knowledge, SkillPicker, Status } from "@/components/Sidebar"
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text"
 import { Button } from "@/components/ui/button"
@@ -20,7 +21,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function App() {
   const busy = useStore((s) => s.busy)
-  const [inspector, setInspector] = useState(true)
+  const [advanced, setAdvanced] = useState(false) // simple view by default: chat + to-do list only
 
   useEffect(() => {
     refresh().catch(() => {})
@@ -35,32 +36,35 @@ export default function App() {
       <header className="relative z-10 flex items-center gap-3 border-b bg-background/70 px-4 py-2.5 backdrop-blur">
         <div className={cn("orb size-5 rounded-full", busy && "busy")} />
         <span className="font-bold tracking-[0.25em]">CRYPTON</span>
-        <AnimatedShinyText className="hidden text-xs sm:block">Agent Workspace · local-first</AnimatedShinyText>
-        <Button size="sm" variant="ghost" className="ml-auto" onClick={() => setInspector(!inspector)} aria-label="Toggle inspector">
-          <PanelRight />Inspector
+        <AnimatedShinyText className="hidden text-xs sm:block">Your private assistant</AnimatedShinyText>
+        <Button size="sm" variant={advanced ? "secondary" : "ghost"} className="ml-auto" onClick={() => setAdvanced(!advanced)} aria-label="Toggle advanced view">
+          <Settings2 />{advanced ? "Simple view" : "Advanced"}
         </Button>
       </header>
 
-      <div className={cn("relative z-10 grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[270px_1fr]", inspector && "xl:grid-cols-[270px_1fr_380px] md:grid-cols-[1fr_340px] lg:grid-cols-[270px_1fr_360px]")}>
-        <aside className="hidden min-h-0 space-y-5 overflow-y-auto border-r bg-background/40 p-3 scrollbar-thin lg:block">
-          <Section title="System"><Status /></Section>
-          <Section title="Skills"><SkillPicker /></Section>
-          <Section title="Knowledge"><Knowledge /></Section>
-          <Section title="Demo"><DemoReset /></Section>
-        </aside>
-        <main className="min-h-0">
-          <Chat />
-        </main>
-        {inspector && (
+      {advanced ? (
+        <div className="relative z-10 grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[1fr_340px] lg:grid-cols-[270px_1fr_360px] xl:grid-cols-[270px_1fr_380px]">
+          <aside className="hidden min-h-0 space-y-5 overflow-y-auto border-r bg-background/40 p-3 scrollbar-thin lg:block">
+            <Section title="System"><Status /></Section>
+            <Section title="Skills"><SkillPicker /></Section>
+            <Section title="Knowledge"><Knowledge /></Section>
+            <Section title="Demo"><DemoReset /></Section>
+          </aside>
+          <main className="min-h-0">
+            <Chat />
+          </main>
           <aside className="hidden min-h-0 border-l bg-background/40 md:block">
             <Inspector />
           </aside>
-        )}
-      </div>
-      {/* phones: inspector below the chat as a sheet */}
-      {inspector && (
-        <div className="relative z-10 h-[42dvh] border-t bg-background/90 md:hidden">
-          <Inspector />
+        </div>
+      ) : (
+        <div className="relative z-10 grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[1fr_320px]">
+          <main className="min-h-0">
+            <Chat />
+          </main>
+          <aside className="hidden min-h-0 border-l bg-background/40 md:block">
+            <TaskPanel />
+          </aside>
         </div>
       )}
       <Toaster position="bottom-center" theme="dark" />
