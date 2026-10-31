@@ -140,7 +140,7 @@ def test_pwa_assets_served():
 def test_registry_has_all_tools():
     from backend import tools
     assert set(tools.REGISTRY) == {"create_task", "list_tasks", "complete_task", "update_task", "delete_task",
-                                   "search_documents", "add_note", "list_notes", "web_search", "scrape_url", "research_web", "save_page", "play_music",
+                                   "search_documents", "add_note", "list_notes", "web_search", "scrape_url", "research_web", "save_page", "play_music", "list_files", "find_files", "read_file", "open_file", "take_screenshot",
                                    "open_app", "open_folder", "open_url", "search_browser"}
 
 

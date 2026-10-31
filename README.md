@@ -17,6 +17,8 @@ People capture tasks while their hands are busy, and cloud assistants send priva
 | "Add a task: charge my laptop" / "Delete the charger task" | Task changes; deletes always ask for a Confirm click |
 | "Remember: the demo charger is in the blue bag" | Saves a searchable note |
 | "Open calculator" / "Open my downloads folder" / "Open YouTube" | Opens an app, folder or website from a fixed safe list |
+| "Take a screenshot" / "Find my resume file" / "Open downloads/cv.pdf" / "Read notes.txt in documents" | Saves a screenshot to Pictures/Screenshots; finds, lists, reads and opens files, only inside Desktop, Documents, Downloads, Pictures, Videos and the project |
+| "Open the project README on GitHub for editing" | Opens the GitHub edit page in your browser |
 | "Play Karan Aujla song" | Finds the video with Anakin search and opens it on YouTube, where it plays |
 | "Best laptop under 50k" / "Research budget laptops" | Searches the web, reads the top pages and answers with sources and prices (about 30 s) |
 | "Scrape https://example.com and tell me what it says" | Reads the page text; long pages are read in parts; JS-heavy pages are retried in a browser |
@@ -48,6 +50,7 @@ voice/text -> route skill -> local LLM (Ollama) -> validated tool call -> result
 More: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/MODEL_QUANTIZATION.md](docs/MODEL_QUANTIZATION.md), [docs/SKILL_WORKFLOW.md](docs/SKILL_WORKFLOW.md).
 
 ## Safety
+- **File access is read-only and fenced.** Only Desktop, Documents, Downloads, Pictures, Videos and the project folder; `.env`, SSH/AWS keys and AppData are refused; programs and scripts are never opened. After any refused or failed action the agent stops instead of trying other tools.
 - **Computer control is not a shell.** The model can only choose a name from a fixed list of apps and folders (or give an `http(s)` URL). Nothing it writes is executed as a command. See `backend/system.py`.
 - Run the server on **localhost only** (`--host 127.0.0.1`). Anyone who can reach the server can ask it to open apps on your computer.
 - Delete actions require an explicit Confirm click.
@@ -76,7 +79,7 @@ Install it as an app: in Chrome or Edge click the install icon in the address ba
 ```powershell
 .venv\Scripts\python -m pytest -q
 ```
-73 tests pass offline; the `test_live_*` files also need Ollama running.
+85 tests pass offline; the `test_live_*` files also need Ollama running.
 
 ## Project layout
 | Path | Purpose |

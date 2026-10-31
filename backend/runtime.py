@@ -25,6 +25,10 @@ MAX_LLM_CALLS = 6
 MAX_TOOL_CALLS = 8
 LLM_TIMEOUT = 90
 PASSAGE_CHARS = 700
+# Skills that touch the user's computer or the outside web: a small model must not wander on after a
+# refusal or error, and must not chain more than a couple of actions for one request.
+STOP_ON_ERROR = {"computer-control", "web-research"}
+SKILL_TOOL_LIMIT = {"computer-control": 2}
 
 
 class State(TypedDict, total=False):
@@ -44,6 +48,7 @@ class State(TypedDict, total=False):
     tool_calls: int
     reply: str
     status: str
+    halt: bool
 
 
 def _ms(t0: float) -> int:
@@ -134,6 +139,8 @@ def tools_node(state: State) -> State:
     steps, actions = list(state.get("steps", [])), list(state.get("actions", []))
     sources, pending = list(state.get("sources", [])), list(state.get("pending", []))
     messages, count = list(state["messages"]), state.get("tool_calls", 0)
+    limit = SKILL_TOOL_LIMIT.get(state.get("skill"), MAX_TOOL_CALLS)
+    halt_reply = None
     for call in state.get("pending_calls", []):
         t0 = time.perf_counter()
         name = call["function"]["name"]
@@ -143,7 +150,9 @@ def tools_node(state: State) -> State:
                 args = json.loads(args or "{}")
             except json.JSONDecodeError:
                 args = {}
-        if count >= MAX_TOOL_CALLS:
+        if halt_reply:
+            break  # an earlier call in this batch failed: do not run the rest
+        if count >= limit:
             result = {"ok": False, "error": "tool call limit reached"}
         else:
             count += 1
@@ -163,8 +172,13 @@ def tools_node(state: State) -> State:
                       "needs_confirmation": bool(result.get("needs_confirmation")),
                       "error": result.get("error"), "summary": _summarize(name, result)})
         messages.append({"role": "tool", "tool_name": name, "content": json.dumps(model_view, default=str)})
-    return {"steps": steps, "actions": actions, "sources": sources, "pending": pending,
-            "messages": messages, "tool_calls": count, "pending_calls": []}
+        if not result.get("ok") and state.get("skill") in STOP_ON_ERROR:
+            halt_reply = f"I could not do that: {result.get('error', 'the action failed')}. Nothing else was done."
+    out = {"steps": steps, "actions": actions, "sources": sources, "pending": pending,
+           "messages": messages, "tool_calls": count, "pending_calls": []}
+    if halt_reply:
+        out.update(halt=True, reply=halt_reply)
+    return out
 
 
 def finalize_node(state: State) -> State:
@@ -217,7 +231,7 @@ def build_graph():
     g.add_edge("route", "load_skill")
     g.add_edge("load_skill", "llm")
     g.add_conditional_edges("llm", _after_llm, {"tools": "tools", "finalize": "finalize"})
-    g.add_edge("tools", "llm")
+    g.add_conditional_edges("tools", lambda st: "finalize" if st.get("halt") else "llm", {"finalize": "finalize", "llm": "llm"})
     g.add_edge("finalize", END)
     return g.compile()
 

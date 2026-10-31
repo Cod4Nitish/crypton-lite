@@ -121,6 +121,20 @@ class PlayMusic(Args):
     query: str = Field(min_length=2, max_length=200, description="Song, artist or video to play, e.g. 'Karan Aujla song'")
 
 
+class ListFiles(Args):
+    folder: str = Field("downloads", description="desktop, documents, downloads, pictures, videos or project")
+    sub: str = Field("", description="Optional sub-folder inside it")
+
+
+class FindFiles(Args):
+    query: str = Field(min_length=2, max_length=100, description="Part of a file or folder name to look for")
+    folder: str = Field("all", description="all, or desktop, documents, downloads, pictures, videos, project")
+
+
+class FilePath(Args):
+    path: str = Field(min_length=2, max_length=400, description="File path, e.g. downloads/notes.txt, or a full path from list_files/find_files")
+
+
 class NoArgs(Args):
     pass
 
@@ -247,6 +261,31 @@ def _play_music(a: PlayMusic):
     return system.play_media(a.query)
 
 
+def _list_files(a: ListFiles):
+    from . import system
+    return system.list_files(a.folder, a.sub)
+
+
+def _find_files(a: FindFiles):
+    from . import system
+    return system.find_files(a.query, a.folder)
+
+
+def _read_file(a: FilePath):
+    from . import system
+    return system.read_file(a.path)
+
+
+def _open_file(a: FilePath):
+    from . import system
+    return system.open_file(a.path)
+
+
+def _screenshot(a: NoArgs):
+    from . import system
+    return system.screenshot()
+
+
 def _add_note(a: AddNote):
     from . import rag
     note = store.add_note(a.title, a.body)
@@ -274,6 +313,11 @@ REGISTRY: dict[str, Tool] = {t.name: t for t in [
     Tool(name="research_web", description="Research a topic: search the web and read the top pages (Anakin.io). Best for questions needing facts from several sources.", args=ResearchWeb, handler=_research_web),
     Tool(name="save_page", description="Scrape a web page and save it into the user's documents so it can be searched with citations.", args=SavePage, handler=_save_page),
     Tool(name="play_music", description="Play a song or video: finds it on YouTube and opens it in the user's browser.", args=PlayMusic, handler=_play_music),
+    Tool(name="list_files", description="List the newest files in one of the user's folders (desktop, documents, downloads, pictures, videos, project).", args=ListFiles, handler=_list_files),
+    Tool(name="find_files", description="Find files or folders by name in the user's folders.", args=FindFiles, handler=_find_files),
+    Tool(name="read_file", description="Read a text file from the user's folders.", args=FilePath, handler=_read_file),
+    Tool(name="open_file", description="Open a file in its normal app (pdf, image, document). Programs and scripts are refused.", args=FilePath, handler=_open_file),
+    Tool(name="take_screenshot", description="Take a screenshot of the whole screen and save it to Pictures/Screenshots.", args=NoArgs, handler=_screenshot),
     Tool(name="add_note", description="Save a knowledge note.", args=AddNote, handler=_add_note),
     Tool(name="list_notes", description="List saved notes.", args=NoArgs, handler=_list_notes),
 ]}
