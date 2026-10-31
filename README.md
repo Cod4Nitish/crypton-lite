@@ -4,7 +4,6 @@
 Built for **CRYPTON: Speed of Thought** (WeMakeDevs, 31 Oct 2026).
 
 Say "Create preparation tasks based on the event agenda document" and a small local model reads your PDF, creates the tasks, and answers with citations that point to the exact page. Say "Open calculator" and it opens it. Ask "best laptop under 50k" and it researches the live web. Your documents, tasks and database never leave the machine.
-
 ![Crypton answering from an agenda with citations and a timing trace](docs/screenshots/02-rag-summary-trace.png)
 
 ## Why it exists
