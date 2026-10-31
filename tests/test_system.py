@@ -66,3 +66,30 @@ def test_url_in_message_goes_to_web_research_unless_opening():
     assert skills.route("scrape https://example.com and tell me what it says")[0].name == "web-research"
     assert skills.route("summarize https://example.com/page")[0].name == "web-research"
     assert skills.route("open https://www.youtube.com")[0].name == "computer-control"
+
+
+def test_play_music_opens_the_first_youtube_video(launched, monkeypatch):
+    from backend import anakin
+    monkeypatch.setattr(anakin, "search", lambda q, limit=5: {"results": [
+        {"title": "Some blog", "url": "https://blog.example.com/karan"},
+        {"title": "Karan Aujla - Song (Official Video)", "url": "https://www.youtube.com/watch?v=abc123XYZ_-"}]})
+    out = tools.execute("play_music", {"query": "Karan Aujla song"})
+    assert out["ok"] and out["mode"] == "video" and launched == ["https://www.youtube.com/watch?v=abc123XYZ_-"]
+
+
+def test_play_music_falls_back_to_youtube_results(launched, monkeypatch):
+    from backend import anakin
+
+    def boom(q, limit=5):
+        raise anakin.AnakinError("no key")
+
+    monkeypatch.setattr(anakin, "search", boom)
+    out = tools.execute("play_music", {"query": "Karan Aujla song"})
+    assert out["ok"] and out["mode"] == "search_results"
+    assert launched == ["https://www.youtube.com/results?search_query=Karan+Aujla+song"]
+
+
+def test_play_requests_route_to_computer_control():
+    from backend import skills
+    for msg in ("play Karan Aujla song", "play a song by Diljit", "play music"):
+        assert skills.route(msg)[0].name == "computer-control", msg

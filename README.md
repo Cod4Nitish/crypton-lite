@@ -17,8 +17,10 @@ People capture tasks while their hands are busy, and cloud assistants send priva
 | "Add a task: charge my laptop" / "Delete the charger task" | Task changes; deletes always ask for a Confirm click |
 | "Remember: the demo charger is in the blue bag" | Saves a searchable note |
 | "Open calculator" / "Open my downloads folder" / "Open YouTube" | Opens an app, folder or website from a fixed safe list |
-| "Best laptop under 50k" | Live web search (Anakin.io) with sources and prices |
-| "Scrape https://example.com and tell me what it says" | Reads the page text (Anakin.io) |
+| "Play Karan Aujla song" | Finds the video with Anakin search and opens it on YouTube, where it plays |
+| "Best laptop under 50k" / "Research budget laptops" | Searches the web, reads the top pages and answers with sources and prices (about 30 s) |
+| "Scrape https://example.com and tell me what it says" | Reads the page text; long pages are read in parts; JS-heavy pages are retried in a browser |
+| "Save this page https://example.com to my documents" | Scrapes the page and indexes it, so you can ask questions about it with citations |
 
 The default screen is deliberately simple: a chat box and a to-do list. Click **Advanced** for the timeline, sources, skills and performance panels.
 
@@ -74,7 +76,7 @@ Install it as an app: in Chrome or Edge click the install icon in the address ba
 ```powershell
 .venv\Scripts\python -m pytest -q
 ```
-62 tests pass offline; the `test_live_*` files also need Ollama running.
+73 tests pass offline; the `test_live_*` files also need Ollama running.
 
 ## Project layout
 | Path | Purpose |

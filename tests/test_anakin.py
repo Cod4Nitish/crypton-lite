@@ -30,7 +30,7 @@ def test_search_sends_key_and_trims(monkeypatch):
 def test_scrape_truncates_and_rejects_bad_url(monkeypatch):
     monkeypatch.setattr(httpx, "post", lambda *a, **k: FakeResp(200, {"markdown": "x" * 5000}))
     out = tools.execute("scrape_url", {"url": "https://example.com"})
-    assert out["ok"] and out["truncated"] and len(out["content"]) == anakin.MAX_CHARS
+    assert out["ok"] and out["total_parts"] > 1 and len(out["content"]) == anakin.MAX_CHARS
     assert not tools.execute("scrape_url", {"url": "ftp://example.com/file"})["ok"]
 
 

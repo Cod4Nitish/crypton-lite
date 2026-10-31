@@ -90,6 +90,15 @@ class WebSearch(Args):
 
 class ScrapeUrl(Args):
     url: str = Field(min_length=8, max_length=500, description="Full page URL starting with http:// or https://")
+    part: int = Field(1, ge=1, le=50, description="Which part of a long page to read; 1 is the start")
+
+
+class ResearchWeb(Args):
+    query: str = Field(min_length=2, max_length=300, description="Topic to research: searches the web and reads the top pages")
+
+
+class SavePage(Args):
+    url: str = Field(min_length=8, max_length=500, description="Full page URL to save into the user's documents")
 
 
 class OpenApp(Args):
@@ -106,6 +115,10 @@ class OpenUrl(Args):
 
 class SearchBrowser(Args):
     query: str = Field(min_length=2, max_length=200, description="What to search for in the web browser")
+
+
+class PlayMusic(Args):
+    query: str = Field(min_length=2, max_length=200, description="Song, artist or video to play, e.g. 'Karan Aujla song'")
 
 
 class NoArgs(Args):
@@ -184,7 +197,7 @@ def _web_search(a: WebSearch):
 def _scrape_url(a: ScrapeUrl):
     from . import anakin
     try:
-        return anakin.scrape(a.url)
+        return anakin.scrape(a.url, a.part)
     except anakin.AnakinError as e:
         raise ValueError(str(e))
 
@@ -207,6 +220,31 @@ def _open_url(a: OpenUrl):
 def _search_browser(a: SearchBrowser):
     from . import system
     return system.search_in_browser(a.query)
+
+
+def _research_web(a: ResearchWeb):
+    from . import anakin
+    try:
+        return anakin.research(a.query)
+    except anakin.AnakinError as e:
+        raise ValueError(str(e))
+
+
+def _save_page(a: SavePage):
+    from . import anakin, rag
+    try:
+        host, text = anakin.page_for_saving(a.url)
+    except anakin.AnakinError as e:
+        raise ValueError(str(e))
+    out = rag.ingest(f"web-{host}.md", text.encode("utf-8"), source_id="web")
+    doc = out["document"]
+    return {"saved_as": doc["name"], "chunks": doc["chunks"], "already_saved": out["cached"],
+            "note": "The user can now ask questions about it and get citations."}
+
+
+def _play_music(a: PlayMusic):
+    from . import system
+    return system.play_media(a.query)
 
 
 def _add_note(a: AddNote):
@@ -233,6 +271,9 @@ REGISTRY: dict[str, Tool] = {t.name: t for t in [
     Tool(name="open_folder", description="Open a folder in File Explorer (downloads, documents, desktop, pictures, project).", args=OpenFolder, handler=_open_folder),
     Tool(name="open_url", description="Open a website in the user's browser.", args=OpenUrl, handler=_open_url),
     Tool(name="search_browser", description="Open a Google search for a query in the user's browser.", args=SearchBrowser, handler=_search_browser),
+    Tool(name="research_web", description="Research a topic: search the web and read the top pages (Anakin.io). Best for questions needing facts from several sources.", args=ResearchWeb, handler=_research_web),
+    Tool(name="save_page", description="Scrape a web page and save it into the user's documents so it can be searched with citations.", args=SavePage, handler=_save_page),
+    Tool(name="play_music", description="Play a song or video: finds it on YouTube and opens it in the user's browser.", args=PlayMusic, handler=_play_music),
     Tool(name="add_note", description="Save a knowledge note.", args=AddNote, handler=_add_note),
     Tool(name="list_notes", description="List saved notes.", args=NoArgs, handler=_list_notes),
 ]}

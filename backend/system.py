@@ -4,6 +4,7 @@ Deliberately NOT a shell. The model can only pick a name from APPS / FOLDERS or 
 http(s) URL; nothing it writes is ever executed as a command. Apps and folders are Windows only.
 """
 import os
+import re
 import subprocess
 import sys
 import webbrowser
@@ -76,3 +77,24 @@ def open_url(url: str) -> dict:
 
 def search_in_browser(query: str) -> dict:
     return open_url("https://www.google.com/search?q=" + quote_plus(query))
+
+
+_VIDEO = re.compile(r"https?://(?:www\.|m\.|music\.)?(?:youtube\.com/watch\?v=|youtu\.be/)[\w-]{6,}")
+
+
+def play_media(query: str) -> dict:
+    """Find the best matching YouTube video with Anakin search and open it (it autoplays).
+    Without an Anakin key, or if no video is found, open the YouTube results page instead."""
+    from . import anakin
+    try:
+        for hit in anakin.search(f"{query} official video youtube", limit=8)["results"]:
+            m = _VIDEO.match(hit.get("url", ""))
+            if m:
+                webbrowser.open(hit["url"])
+                return {"mode": "video", "playing": hit.get("title", "")[:100], "url": hit["url"]}
+    except (anakin.AnakinError, ValueError):
+        pass
+    url = "https://www.youtube.com/results?search_query=" + quote_plus(query)
+    webbrowser.open(url)
+    return {"mode": "search_results", "url": url,
+            "note": "Could not pick a single video, so the YouTube results page was opened. The user must click one."}
