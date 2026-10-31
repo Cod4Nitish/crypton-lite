@@ -44,3 +44,10 @@ def test_router():
     for msg in ("open notepad", "open YouTube", "open my downloads folder", "launch chrome"):
         assert skills.route(msg)[0].name == "computer-control", msg
     assert skills.route("search the web for latest Wispr Flow news")[0].name == "web-research"
+
+
+def test_scrape_requests_go_to_web_research():
+    from backend import skills
+    for msg in ("scrape https://example.com", "scrape the website example.com", "read the content of this page https://example.com/a"):
+        assert skills.route(msg)[0].name == "web-research", msg
+    assert skills.route("open youtube")[0].name == "computer-control"
