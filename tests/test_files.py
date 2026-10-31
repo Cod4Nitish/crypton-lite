@@ -90,3 +90,43 @@ def test_agent_stops_after_a_refused_action(sandbox, monkeypatch):
     names = [a["tool"] for a in out["actions"]]
     assert names == ["read_file"]
     assert "could not do that" in out["reply"] and "protected" in out["reply"]
+
+
+@pytest.fixture
+def writable(tmp_path, monkeypatch):
+    desk = tmp_path / "Desktop"
+    desk.mkdir()
+    monkeypatch.setattr(system, "SAFE_ROOTS", {"desktop": str(desk), "documents": str(tmp_path / "Documents")})
+    shown = []
+    monkeypatch.setattr(system, "_open_in_notepad", shown.append)
+    return desk, shown
+
+
+def test_create_file_writes_text_and_shows_it(writable):
+    desk, shown = writable
+    out = tools.execute("create_file", {"name": "hello.txt", "content": "hello", "folder": "desktop"})
+    assert out["ok"] and (desk / "hello.txt").read_text(encoding="utf-8") == "hello"
+    assert shown == [str(desk / "hello.txt")]
+
+
+def test_create_file_never_overwrites(writable):
+    desk, _ = writable
+    (desk / "hello.txt").write_text("keep me", encoding="utf-8")
+    out = tools.execute("create_file", {"name": "hello.txt", "content": "new"})
+    assert out["ok"] and out["created"].endswith("hello (1).txt")
+    assert (desk / "hello.txt").read_text(encoding="utf-8") == "keep me"
+
+
+@pytest.mark.parametrize("name", ["..\\evil.txt", "a/b.txt", "run.bat", "x.ps1", ".env", "C:\\x.txt", "note.exe"])
+def test_create_file_refuses_bad_names_and_types(writable, name):
+    assert tools.execute("create_file", {"name": name, "content": "x"})["ok"] is False
+
+
+def test_create_file_only_in_allowed_folders(writable):
+    assert tools.execute("create_file", {"name": "a.txt", "content": "x", "folder": "project"})["ok"] is False
+    assert tools.execute("create_file", {"name": "a.txt", "content": "x", "folder": "C:\\Windows"})["ok"] is False
+
+
+def test_notepad_save_request_routes_to_computer_control():
+    from backend import skills
+    assert skills.route("type hello in notepad and save it as hello.txt on the desktop")[0].name == "computer-control"

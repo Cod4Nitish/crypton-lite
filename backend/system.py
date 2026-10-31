@@ -253,3 +253,43 @@ def screenshot() -> dict:
     except (subprocess.SubprocessError, OSError) as e:
         raise ValueError(f"could not take a screenshot: {type(e).__name__}")
     return {"saved": path}
+
+
+# ---- creating new text files (never overwrites) -----------------------------------------------
+
+WRITE_FOLDERS = ("desktop", "documents", "downloads")
+WRITE_EXT = {".txt", ".md", ".csv", ".json", ".log"}
+WRITE_MAX = 20000
+
+
+def _open_in_notepad(path: str) -> None:
+    """Fixed program, the path is a plain argument (no shell). Choke point for tests."""
+    if sys.platform != "win32":
+        raise ValueError("opening Notepad is only supported on Windows")
+    subprocess.Popen(["notepad.exe", path])
+
+
+def create_file(name: str, content: str, folder: str = "desktop", show: bool = True) -> dict:
+    """Create a NEW small text file in Desktop, Documents or Downloads, then show it in Notepad."""
+    name = (name or "").strip().strip('"')
+    if not name or name != os.path.basename(name) or any(c in name for c in '<>:"|?*\\/') or name.startswith("."):
+        raise ValueError("file name must be a plain name like hello.txt")
+    stem, ext = os.path.splitext(name)
+    if not ext:
+        name, ext = name + ".txt", ".txt"
+    if ext.lower() not in WRITE_EXT:
+        raise ValueError(f"I can only create these file types: {', '.join(sorted(WRITE_EXT))}")
+    if folder.strip().lower() not in WRITE_FOLDERS:
+        raise ValueError(f"I can only create files in: {', '.join(WRITE_FOLDERS)}")
+    if len(content or "") > WRITE_MAX:
+        raise ValueError("content is too long for a simple text file")
+    base = _safe_path(folder.strip().lower())
+    path, n = os.path.join(base, name), 1
+    while os.path.exists(path):  # never overwrite: hello.txt -> hello (1).txt
+        path = os.path.join(base, f"{os.path.splitext(name)[0]} ({n}){ext}")
+        n += 1
+    with open(path, "x", encoding="utf-8") as f:
+        f.write(content or "")
+    if show:
+        _open_in_notepad(path)
+    return {"created": path, "bytes": len((content or "").encode("utf-8")), "shown_in_notepad": bool(show)}

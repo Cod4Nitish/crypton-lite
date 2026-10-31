@@ -18,6 +18,7 @@ People capture tasks while their hands are busy, and cloud assistants send priva
 | "Remember: the demo charger is in the blue bag" | Saves a searchable note |
 | "Open calculator" / "Open my downloads folder" / "Open YouTube" | Opens an app, folder or website from a fixed safe list |
 | "Take a screenshot" / "Find my resume file" / "Open downloads/cv.pdf" / "Read notes.txt in documents" | Saves a screenshot to Pictures/Screenshots; finds, lists, reads and opens files, only inside Desktop, Documents, Downloads, Pictures, Videos and the project |
+| "Type hello in Notepad and save it as hello.txt on the desktop" | Creates the new text file with that text (never overwrites) and shows it in Notepad |
 | "Open the project README on GitHub for editing" | Opens the GitHub edit page in your browser |
 | "Play Karan Aujla song" | Finds the video with Anakin search and opens it on YouTube, where it plays |
 | "Best laptop under 50k" / "Research budget laptops" | Searches the web, reads the top pages and answers with sources and prices (about 30 s) |
@@ -79,7 +80,7 @@ Install it as an app: in Chrome or Edge click the install icon in the address ba
 ```powershell
 .venv\Scripts\python -m pytest -q
 ```
-85 tests pass offline; the `test_live_*` files also need Ollama running.
+96 tests pass offline; the `test_live_*` files also need Ollama running.
 
 ## Project layout
 | Path | Purpose |

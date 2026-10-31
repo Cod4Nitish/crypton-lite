@@ -135,6 +135,12 @@ class FilePath(Args):
     path: str = Field(min_length=2, max_length=400, description="File path, e.g. downloads/notes.txt, or a full path from list_files/find_files")
 
 
+class CreateFile(Args):
+    name: str = Field(min_length=1, max_length=80, description="File name such as hello.txt (txt, md, csv, json or log)")
+    content: str = Field("", max_length=20000, description="Exact text to put in the file")
+    folder: str = Field("desktop", description="desktop, documents or downloads")
+
+
 class NoArgs(Args):
     pass
 
@@ -286,6 +292,11 @@ def _screenshot(a: NoArgs):
     return system.screenshot()
 
 
+def _create_file(a: CreateFile):
+    from . import system
+    return system.create_file(a.name, a.content, a.folder.strip().lower())
+
+
 def _add_note(a: AddNote):
     from . import rag
     note = store.add_note(a.title, a.body)
@@ -318,6 +329,7 @@ REGISTRY: dict[str, Tool] = {t.name: t for t in [
     Tool(name="read_file", description="Read a text file from the user's folders.", args=FilePath, handler=_read_file),
     Tool(name="open_file", description="Open a file in its normal app (pdf, image, document). Programs and scripts are refused.", args=FilePath, handler=_open_file),
     Tool(name="take_screenshot", description="Take a screenshot of the whole screen and save it to Pictures/Screenshots.", args=NoArgs, handler=_screenshot),
+    Tool(name="create_file", description="Create a NEW text file with the given content on the Desktop, in Documents or Downloads and show it in Notepad. Never overwrites.", args=CreateFile, handler=_create_file),
     Tool(name="add_note", description="Save a knowledge note.", args=AddNote, handler=_add_note),
     Tool(name="list_notes", description="List saved notes.", args=NoArgs, handler=_list_notes),
 ]}
