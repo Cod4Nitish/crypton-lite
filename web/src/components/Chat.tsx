@@ -181,10 +181,10 @@ const AssistantMessage: FC = () => (
 )
 
 const SUGGESTIONS = [
-  "Summarize the important activities in the event agenda",
+  "Open calculator",
+  "Open YouTube",
+  "Add a task: charge my laptop",
   "Create preparation tasks based on the event agenda document",
-  "Plan my day",
-  "Remember this note: demo laptop charger is in the blue bag",
 ]
 
 const Welcome: FC = () => (

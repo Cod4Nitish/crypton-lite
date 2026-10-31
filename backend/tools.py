@@ -92,6 +92,22 @@ class ScrapeUrl(Args):
     url: str = Field(min_length=8, max_length=500, description="Full page URL starting with http:// or https://")
 
 
+class OpenApp(Args):
+    name: str = Field(description="App to open, e.g. notepad, calculator, chrome, vscode, file explorer, paint, word, excel")
+
+
+class OpenFolder(Args):
+    name: str = Field(description="Folder to open: downloads, documents, desktop, pictures or project")
+
+
+class OpenUrl(Args):
+    url: str = Field(min_length=8, max_length=500, description="Website address starting with http:// or https://")
+
+
+class SearchBrowser(Args):
+    query: str = Field(min_length=2, max_length=200, description="What to search for in the web browser")
+
+
 class NoArgs(Args):
     pass
 
@@ -173,6 +189,26 @@ def _scrape_url(a: ScrapeUrl):
         raise ValueError(str(e))
 
 
+def _open_app(a: OpenApp):
+    from . import system
+    return system.open_app(a.name.strip().lower())
+
+
+def _open_folder(a: OpenFolder):
+    from . import system
+    return system.open_folder(a.name.strip().lower())
+
+
+def _open_url(a: OpenUrl):
+    from . import system
+    return system.open_url(a.url)
+
+
+def _search_browser(a: SearchBrowser):
+    from . import system
+    return system.search_in_browser(a.query)
+
+
 def _add_note(a: AddNote):
     from . import rag
     note = store.add_note(a.title, a.body)
@@ -193,6 +229,10 @@ REGISTRY: dict[str, Tool] = {t.name: t for t in [
     Tool(name="search_documents", description="Semantic search over uploaded documents and saved notes.", args=SearchDocuments, handler=_search),
     Tool(name="web_search", description="Search the live web (Anakin.io). Returns titles, URLs and snippets.", args=WebSearch, handler=_web_search),
     Tool(name="scrape_url", description="Read the text of one web page (Anakin.io).", args=ScrapeUrl, handler=_scrape_url),
+    Tool(name="open_app", description="Open an app on the user's computer (notepad, calculator, chrome, vscode...).", args=OpenApp, handler=_open_app),
+    Tool(name="open_folder", description="Open a folder in File Explorer (downloads, documents, desktop, pictures, project).", args=OpenFolder, handler=_open_folder),
+    Tool(name="open_url", description="Open a website in the user's browser.", args=OpenUrl, handler=_open_url),
+    Tool(name="search_browser", description="Open a Google search for a query in the user's browser.", args=SearchBrowser, handler=_search_browser),
     Tool(name="add_note", description="Save a knowledge note.", args=AddNote, handler=_add_note),
     Tool(name="list_notes", description="List saved notes.", args=NoArgs, handler=_list_notes),
 ]}

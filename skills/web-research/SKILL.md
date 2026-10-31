@@ -3,7 +3,7 @@ name: web-research
 description: Look things up on the live web with Anakin.io (search, read a page) and turn findings into notes or tasks.
 allowed-tools: web_search scrape_url add_note create_task
 metadata:
-  triggers: web online internet research google lookup latest news website webpage url link scrape browse
+  triggers: web online internet research lookup latest news scrape
 ---
 1. Call web_search with a short query. If the user gave a URL, call scrape_url on it instead.
 2. Answer ONLY from the returned results. Name the source URL for each fact. If a tool returned
