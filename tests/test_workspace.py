@@ -11,7 +11,7 @@ client = TestClient(app)
 def test_skills_lazy_and_routing():
     skills.load.cache_clear()
     loaded = skills.load()
-    assert set(loaded) == {"task-management", "document-qa", "planning-briefing", "knowledge-notes"}
+    assert set(loaded) == {"task-management", "document-qa", "planning-briefing", "knowledge-notes", "web-research"}
     assert all(s._body is None for s in loaded.values())  # bodies not read yet
     assert skills.route("Summarize the agenda")[0].name == "document-qa"
     assert skills.route("Create preparation tasks from the agenda document")[0].name == "planning-briefing"

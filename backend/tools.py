@@ -84,6 +84,14 @@ class AddNote(Args):
     body: str = Field(min_length=1, max_length=4000)
 
 
+class WebSearch(Args):
+    query: str = Field(min_length=2, max_length=300, description="What to look up on the web")
+
+
+class ScrapeUrl(Args):
+    url: str = Field(min_length=8, max_length=500, description="Full page URL starting with http:// or https://")
+
+
 class NoArgs(Args):
     pass
 
@@ -149,6 +157,22 @@ def _search(a: SearchDocuments):
     return rag.search(a.query)
 
 
+def _web_search(a: WebSearch):
+    from . import anakin
+    try:
+        return anakin.search(a.query)
+    except anakin.AnakinError as e:
+        raise ValueError(str(e))
+
+
+def _scrape_url(a: ScrapeUrl):
+    from . import anakin
+    try:
+        return anakin.scrape(a.url)
+    except anakin.AnakinError as e:
+        raise ValueError(str(e))
+
+
 def _add_note(a: AddNote):
     from . import rag
     note = store.add_note(a.title, a.body)
@@ -167,6 +191,8 @@ REGISTRY: dict[str, Tool] = {t.name: t for t in [
     Tool(name="update_task", description="Change a task's title, priority or due date.", args=UpdateTask, handler=_update),
     Tool(name="delete_task", description="Delete a task permanently (the user must confirm).", args=TaskRef, handler=_delete, confirm=True),
     Tool(name="search_documents", description="Semantic search over uploaded documents and saved notes.", args=SearchDocuments, handler=_search),
+    Tool(name="web_search", description="Search the live web (Anakin.io). Returns titles, URLs and snippets.", args=WebSearch, handler=_web_search),
+    Tool(name="scrape_url", description="Read the text of one web page (Anakin.io).", args=ScrapeUrl, handler=_scrape_url),
     Tool(name="add_note", description="Save a knowledge note.", args=AddNote, handler=_add_note),
     Tool(name="list_notes", description="List saved notes.", args=NoArgs, handler=_list_notes),
 ]}

@@ -12,6 +12,13 @@ A small quantized model (qwen3.5:4b, Q4_K_M) runs on Ollama, answers questions o
 - Quantization benchmark and Performance tab
 - Voice input through Wispr Flow or browser dictation (cloud speech-to-text; the agent itself stays local)
 
+## Web research (Anakin.io)
+The `web-research` skill gives the agent two tools backed by [Anakin.io](https://anakin.io): `web_search` (AI web search) and `scrape_url` (page text). Put your key in a gitignored `.env` file (see `.env.example`):
+```
+ANAKIN_API_KEY=ak-...
+```
+Try: "search the web for the latest Wispr Flow news and save a note". Without a key, scraping uses Anakin's keyless free tier; search needs a key.
+
 ## Requirements
 - Python 3.11+
 - [Ollama](https://ollama.com) with `qwen3.5:4b` and `nomic-embed-text` pulled
