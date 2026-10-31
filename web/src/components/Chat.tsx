@@ -173,7 +173,7 @@ const AssistantMessage: FC = () => (
     <div className="min-w-0 flex-1 rounded-2xl rounded-tl-md border bg-card/70 px-4 py-2.5">
       <MessagePrimitive.Parts components={{ Text: CitedText, tools: { Fallback: ToolCard } }} />
       <MessagePrimitive.Error>
-        <div className="text-sm text-destructive">The local model did not respond. Is Ollama running?</div>
+        <div className="text-sm text-destructive">Something went wrong. The message above says what. Only if it mentions Ollama, check that Ollama is running.</div>
       </MessagePrimitive.Error>
       <AssistantMeta />
     </div>

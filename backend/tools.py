@@ -358,3 +358,9 @@ def execute(name: str, raw: dict, allowed: set[str] | None = None, confirmed: bo
         return {"ok": True, **tool.handler(args)}
     except (ValueError, LookupError) as e:
         return {"ok": False, "error": str(e)}
+    except FileNotFoundError:
+        return {"ok": False, "error": "that file or folder does not exist"}
+    except PermissionError:
+        return {"ok": False, "error": "Windows denied access to that file or folder"}
+    except OSError as e:
+        return {"ok": False, "error": f"file system error: {e.strerror or type(e).__name__}"}

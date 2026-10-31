@@ -116,6 +116,8 @@ def post_chat(body: ChatIn):
         return agent.chat(body.message, history=[h.model_dump() for h in body.history], skill=body.skill)
     except httpx.HTTPError as e:
         raise HTTPException(503, f"Ollama unavailable: {e}")
+    except Exception as e:  # a bug must never look like an Ollama outage
+        raise HTTPException(500, f"The agent hit an unexpected error ({type(e).__name__}). Nothing was changed.")
 
 
 @app.get("/api/skills")

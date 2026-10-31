@@ -204,6 +204,8 @@ def find_files(query: str, folder: str = "all") -> dict:
 
 def read_file(path: str) -> dict:
     real = _safe_path(path)
+    if not os.path.exists(real):
+        raise ValueError(f"file not found: {os.path.basename(real)}. Use find_files to look for it")
     if os.path.splitext(real)[1].lower() not in READABLE:
         raise ValueError("I can only read text files (txt, md, py, json, csv, log, html...)")
     if os.path.getsize(real) > 2_000_000:
@@ -222,6 +224,8 @@ def _open_path(path: str) -> None:
 
 def open_file(path: str) -> dict:
     real = _safe_path(path)
+    if not os.path.exists(real):
+        raise ValueError(f"file not found: {os.path.basename(real)}. Use find_files to look for it")
     if not os.path.isfile(real):
         raise ValueError("that is not a file")
     if os.path.splitext(real)[1].lower() in NEVER_OPEN:

@@ -130,3 +130,18 @@ def test_create_file_only_in_allowed_folders(writable):
 def test_notepad_save_request_routes_to_computer_control():
     from backend import skills
     assert skills.route("type hello in notepad and save it as hello.txt on the desktop")[0].name == "computer-control"
+
+
+def test_missing_file_is_a_tool_error_not_a_crash(sandbox):
+    out = tools.execute("read_file", {"path": "documents/news.txt"})
+    assert out["ok"] is False and "not found" in out["error"]
+    assert tools.execute("open_file", {"path": "documents/nothing.pdf"})["ok"] is False
+
+
+def test_os_errors_never_escape_execute(monkeypatch):
+    def boom(a):
+        raise PermissionError("denied")
+
+    monkeypatch.setattr(tools.REGISTRY["list_files"], "handler", boom)
+    out = tools.execute("list_files", {"folder": "documents"})
+    assert out["ok"] is False and "denied access" in out["error"]
