@@ -59,3 +59,10 @@ def test_shopping_and_research_questions_go_to_web_research():
                 "what is the best phone under 30000", "recommend a good laptop"):
         assert skills.route(msg)[0].name == "web-research", msg
     assert skills.route("add a task to buy milk")[0].name == "task-management"
+
+
+def test_url_in_message_goes_to_web_research_unless_opening():
+    from backend import skills
+    assert skills.route("scrape https://example.com and tell me what it says")[0].name == "web-research"
+    assert skills.route("summarize https://example.com/page")[0].name == "web-research"
+    assert skills.route("open https://www.youtube.com")[0].name == "computer-control"

@@ -78,6 +78,9 @@ def route(message: str, override: str | None = None) -> tuple[Skill, str]:
     if override and override in skills:
         return skills[override], "selected by user"
     words = {_stem(w) for w in re.findall(r"[a-zA-Z]+", message)}
+    # A pasted web address means "read this page", unless the user asked to open it.
+    if re.search(r"https?://|www\.", message) and "web-research" in skills and not words & {_stem(w) for w in ("open", "launch", "visit")}:
+        return skills["web-research"], "message contains a web address"
     scores = {name: len(words & s.triggers) for name, s in skills.items()}
     # A request that mixes documents and tasks ("create prep tasks from the agenda") is planning.
     if scores.get("document-qa", 0) and scores.get("task-management", 0) and "planning-briefing" in skills:
