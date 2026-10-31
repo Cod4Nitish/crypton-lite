@@ -19,6 +19,15 @@ ANAKIN_API_KEY=ak-...
 ```
 Try: "search the web for the latest Wispr Flow news and save a note". Without a key, scraping uses Anakin's keyless free tier; search needs a key.
 
+## Hackathon tools: what each one did
+| Tool | Contribution | Status |
+|---|---|---|
+| Wispr Flow | Voice input. Wispr turns speech into text in the chat box; Enter starts the agent. | Ready; real-mic run pending |
+| Anakin.io | `web-research` skill: `web_search` and `scrape_url` tools (`backend/anakin.py`). | Mocked tests pass; live run needs `ANAKIN_API_KEY` |
+| GenieX | Not run: needs Snapdragon hardware (this build used Intel + NVIDIA). | Not verified |
+
+Full write-up: [SUBMISSION.md](SUBMISSION.md).
+
 ## Requirements
 - Python 3.11+
 - [Ollama](https://ollama.com) with `qwen3.5:4b` and `nomic-embed-text` pulled
