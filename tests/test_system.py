@@ -51,3 +51,11 @@ def test_scrape_requests_go_to_web_research():
     for msg in ("scrape https://example.com", "scrape the website example.com", "read the content of this page https://example.com/a"):
         assert skills.route(msg)[0].name == "web-research", msg
     assert skills.route("open youtube")[0].name == "computer-control"
+
+
+def test_shopping_and_research_questions_go_to_web_research():
+    from backend import skills
+    for msg in ("best product avalable on market best laptop under 50k", "compare iPhone vs Pixel prices",
+                "what is the best phone under 30000", "recommend a good laptop"):
+        assert skills.route(msg)[0].name == "web-research", msg
+    assert skills.route("add a task to buy milk")[0].name == "task-management"
